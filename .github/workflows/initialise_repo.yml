@@ -1,0 +1,41 @@
+name: Initialise Repo
+
+on:
+  [workflow_dispatch, push]
+
+# permissions:
+#   contents: write
+
+jobs:
+  run-script:
+    name: run-script
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Create a new issue
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        curl -X POST -H "Authorization: token $GITHUB_TOKEN" \
+        -H "Accept: application/vnd.github.v3+json" \
+        https://api.github.com/repos/${{ github.repository }}/issues \
+        -d '{
+          "title": "Test1",
+          "body": "This is an automated issue created by the workflow."
+        }'
+        
+        curl -X POST -H "Authorization: token $GITHUB_TOKEN" \
+        -H "Accept: application/vnd.github.v3+json" \
+        https://api.github.com/repos/${{ github.repository }}/issues \
+        -d '{
+          "title": "Test2",
+          "body": "Sper sa mearga"
+        }'
+        
+        curl -X POST -H "Authorization: token $GITHUB_TOKEN" \
+        -H "Accept: application/vnd.github.v3+json" \
+        https://api.github.com/repos/${{ github.repository }}/issues \
+        -d '{
+          "title": "Test3",
+          "body": "Uga Buga"
+        }'
