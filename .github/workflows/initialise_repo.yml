@@ -1,7 +1,10 @@
 name: Initialise Repo
 
 on:
-  [workflow_dispatch, push]
+  workflow_dispatch:
+  push:
+    branches: 
+      - master
 
 permissions:
   issues: write 
@@ -39,3 +42,16 @@ jobs:
           "title": "Test3",
           "body": "Uga Buga"
         }'
+    - name: Delete this workflow file
+      env:
+        PERSONAL_TOKEN: ${{ secrets.MY_PERSONAL_TOKEN }}
+      run: |
+        curl -X DELETE -H "Authorization: token $PERSONAL_TOKEN" \
+          -H "Accept: application/vnd.github.v3+json" \
+          https://api.github.com/repos/${{ github.repository }}/contents/.github/workflows/Initialise%20Repo.yml \
+          -d '{
+            "message": "Deleting Initialise Repo workflow after initial run",
+            "sha": "$(curl -s -H "Authorization: token $PERSONAL_TOKEN" \
+              -H "Accept: application/vnd.github.v3+json" \
+              https://api.github.com/repos/${{ github.repository }}/contents/.github/workflows/Initialise%20Repo.yml | jq -r .sha)"
+          }'
