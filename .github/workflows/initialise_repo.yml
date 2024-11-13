@@ -3,8 +3,8 @@ name: Initialise Repo
 on:
   [workflow_dispatch, push]
 
-# permissions:
-#   contents: write
+permissions:
+  issues: write 
 
 jobs:
   run-script:
